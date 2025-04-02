@@ -63,8 +63,9 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
+    public function destroy(Role $role, $id)
     {
+        $role = Role::find($id);
         $role->delete();
         return ['message' => 'The role ($role->id) was deleted'];
     }

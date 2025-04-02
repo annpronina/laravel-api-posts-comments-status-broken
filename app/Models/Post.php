@@ -15,4 +15,8 @@ class Post extends Model
     {
         return $this->belongsTo(PostStatus::class, 'post_status_id');
     }
+
+    public function comments() {
+        return $this->hasMany(Comment::class);
+    }
 }

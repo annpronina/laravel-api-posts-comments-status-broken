@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller implements HasMiddleware
 {
@@ -17,7 +18,7 @@ class CommentController extends Controller implements HasMiddleware
         ];
     }
 
-    public function index()
+    public function index(Post $post)
     {
         return response()->json($post->comments);
     }
@@ -27,7 +28,9 @@ class CommentController extends Controller implements HasMiddleware
         $request->validate(['content' => 'required|string']);
 
         $comment = $post->comments()->create([
-            'content' => $request->content
+            'content' => $request->content, 
+            'post_id' => $post->id,
+            'user_id' => Auth::id()
         ]);
 
         return response()->json($comment, 201);
